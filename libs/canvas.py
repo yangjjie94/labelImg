@@ -38,7 +38,7 @@ class Canvas(QWidget):
         # Initialise local state.
         self.mode = self.EDIT
         self.shapes = []
-        self.current = None
+        self.current = None  
         self.selectedShape = None  # save the selected shape here
         self.selectedShapeCopy = None
         self.drawingLineColor = QColor(0, 0, 255)
@@ -58,7 +58,7 @@ class Canvas(QWidget):
         # Menus:
         self.menus = (QMenu(), QMenu())
         # Set widget options.
-        self.setMouseTracking(True)
+        self.setMouseTracking(True)  # allow mouseMoveEvent()
         self.setFocusPolicy(Qt.WheelFocus)
         self.verified = False
 
@@ -76,7 +76,7 @@ class Canvas(QWidget):
         self.restoreCursor()
 
     def isVisible(self, shape):
-        return self.visible.get(shape, True)
+        return self.visible.get(shape, True)  # if not found, return True
 
     def drawing(self):
         return self.mode == self.CREATE
@@ -230,6 +230,8 @@ class Canvas(QWidget):
                 self.handleDrawing(pos)
 
     def endMove(self, copy=False):
+        # if copy, shift the selected, and keep both Shape
+        # if just move, shift the selected, and remove the former
         assert self.selectedShape and self.selectedShapeCopy
         shape = self.selectedShapeCopy
         #del shape.fill_color
@@ -239,7 +241,7 @@ class Canvas(QWidget):
             self.selectedShape.selected = False
             self.selectedShape = shape
             self.repaint()
-        else:
+        else:  # just move
             self.selectedShape.points = [p for p in shape.points]
         self.selectedShapeCopy = None
 
@@ -252,7 +254,7 @@ class Canvas(QWidget):
             self.repaint()
 
     def handleDrawing(self, pos):
-        if self.current and self.current.reachMaxPoints() is False:
+        if self.current and (self.current.reachMaxPoints() is False):
             initPos = self.current[0]
             minX = initPos.x()
             minY = initPos.y()
