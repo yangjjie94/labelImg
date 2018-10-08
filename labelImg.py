@@ -321,13 +321,14 @@ class MainWindow(QMainWindow, WindowMixin):
                                 icon='color', tip=u'Change the fill color for this specific shape',
                                 enabled=False)
 
-        labels = self.dock.toggleViewAction()
+        labels = self.dock.toggleViewAction()  # new action: display dock or not
         labels.setText('Show/Hide Label Panel')
         labels.setShortcut('Ctrl+Shift+L')
 
-        # Lavel list context menu.
+        # Label list context menu.
         labelMenu = QMenu()
         addActions(labelMenu, (edit, delete))
+        # set popup menu in Label Panel
         self.labelList.setContextMenuPolicy(Qt.CustomContextMenu)
         self.labelList.customContextMenuRequested.connect(
             self.popLabelListMenu)
